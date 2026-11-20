@@ -1,0 +1,156 @@
+import { PatientProfileOption } from "@/types/sakhi";
+
+export const PATIENT_PROFILES: PatientProfileOption[] = [
+  {
+    id: "venkatesh",
+    phone: "+911111111111",
+    name: "Venkatesh",
+    stage: "Pre-Care · General Inquiry",
+    careType: "Pre-Care",
+    language: "en",
+    description: "Exploring fertility options, diet guidance, emotional support, and nearby hospitals.",
+    suggestedPrompts: [
+      "What is IVF and what are its main stages?",
+      "What natural foods can help improve egg quality?",
+      "Find fertility hospitals near 500034",
+      "Does age really affect our chances of conceiving?",
+    ],
+  },
+  {
+    id: "ananya-reddy",
+    phone: "+918888888882",
+    name: "Ananya Reddy",
+    stage: "Post-Care · IVF Stimulation Phase",
+    careType: "Post-Care",
+    language: "en",
+    description: "Active clinic patient under IVF stimulation with zero-trust symptom triage.",
+    suggestedPrompts: [
+      "I have bloating after my stimulation injections",
+      "What is the trigger shot before egg retrieval?",
+      "I missed my stimulation injection dose today",
+      "What is the success rate of IUI?",
+    ],
+  },
+  {
+    id: "priya-sharma",
+    phone: "+918888888883",
+    name: "Priya Sharma",
+    stage: "Post-Care · IUI Cycle",
+    careType: "Post-Care",
+    language: "en",
+    description: "Active clinic patient following an IUI procedure with symptom monitoring.",
+    suggestedPrompts: [
+      "I have mild cramping after my IUI procedure",
+      "I noticed light spotting after IUI",
+      "What is the typical success rate of IUI?",
+    ],
+  },
+  {
+    id: "kavya-nair",
+    phone: "+918888888884",
+    name: "Kavya Nair",
+    stage: "Post-Care · First Trimester",
+    careType: "Post-Care",
+    language: "en",
+    description: "First-trimester clinic care with morning sickness triage and prenatal nutrition.",
+    suggestedPrompts: [
+      "I have morning sickness and nausea today",
+      "What diet should I follow in the first trimester?",
+      "I have mild lower abdominal cramping",
+    ],
+  },
+  {
+    id: "rohan-verma",
+    phone: "+918888888881",
+    name: "Rohan Verma",
+    stage: "Post-Care · General Medicine",
+    careType: "Post-Care",
+    language: "en",
+    description: "General medicine follow-up with 1-question clinical triage and emergency escalation.",
+    suggestedPrompts: [
+      "I have a fever since yesterday",
+      "I have a headache today",
+      "I am having chest pain",
+    ],
+  },
+  {
+    id: "guest-new",
+    phone: `guest_${Date.now().toString().slice(-6)}`,
+    name: "New Visitor",
+    stage: "Onboarding · First Conversation",
+    careType: "Guest",
+    language: "en",
+    description: "Experience Sakhi's real first-time patient name onboarding flow from scratch.",
+    suggestedPrompts: ["Hello Sakhi", "Deepthi", "Find hospitals near 500081"],
+  },
+];
+
+export const LANDING_SCENARIOS = [
+  {
+    id: "ivf-triage",
+    number: "01",
+    category: "Post-Care Clinical Triage",
+    title: "Bloating During IVF Stimulation",
+    description:
+      "See how Sakhi applies a 1-question clinical triage gate to separate normal stimulation bloating from OHSS warning signs.",
+    profilePhone: "+918888888882",
+    prompt: "I have bloating after my stimulation injections",
+    actionLabel: "Start Triage Chat",
+  },
+  {
+    id: "nutrition-fertility",
+    number: "02",
+    category: "Diet & Nutrition",
+    title: "Egg Quality & Homemade Fertility Foods",
+    description:
+      "Get clear, culturally-grounded Indian nutrition advice free of myths around hot/cold foods and spices.",
+    profilePhone: "+911111111111",
+    prompt: "What natural foods can help improve egg quality?",
+    actionLabel: "Ask About Diet",
+  },
+  {
+    id: "hospital-discovery",
+    number: "03",
+    category: "Hospital Discovery",
+    title: "Find Fertility & Maternity Centers by Pincode",
+    description:
+      "Share a 6-digit Indian pincode to browse nearby hospitals and tap any center for direct WhatsApp and Maps details.",
+    profilePhone: "+911111111111",
+    prompt: "Find fertility hospitals near 500034",
+    actionLabel: "Search Hospitals",
+  },
+  {
+    id: "emotional-support",
+    number: "04",
+    category: "Social & Emotional",
+    title: "Coping With Family Pressure & Stigma",
+    description:
+      "Talk through grief, anxiety, and difficult conversations with family in a private, compassionate space.",
+    profilePhone: "+911111111111",
+    prompt: "My in-laws are asking why we don't have kids yet. How do I explain this treatment to them?",
+    actionLabel: "Talk to Sakhi",
+  },
+  {
+    id: "pregnancy-trimester",
+    number: "05",
+    category: "First Trimester Care",
+    title: "Morning Sickness & Prenatal Guidance",
+    description:
+      "Evaluate early pregnancy nausea safely and get doctor-approved nutrition guidance for the first trimester.",
+    profilePhone: "+918888888884",
+    prompt: "I have morning sickness and nausea today",
+    actionLabel: "Try Pregnancy Care",
+  },
+  {
+    id: "telugu-support",
+    number: "06",
+    category: "Multilingual Care",
+    title: "Chat Naturally in Telugu or Tinglish",
+    description:
+      "Message Sakhi in Telugu script or conversational Tinglish for warm, culturally familiar support.",
+    profilePhone: "+911111111111",
+    prompt: "Namaskaram Sakhi, meeku daggara lo unna hospitals 500034 lo cheppandi",
+    language: "tinglish" as const,
+    actionLabel: "Try in Tinglish",
+  },
+];
