@@ -4,11 +4,13 @@ import {
   BookOpen,
   ChevronDown,
   Clock,
+  ExternalLink,
   Globe,
   Heart,
   LogOut,
   MapPin,
   Mic,
+  PlayCircle,
   RotateCcw,
   Send,
   Shield,
@@ -121,6 +123,14 @@ function getPayloadText(payload?: SakhiResponsePayload): string {
   if (payload.interactive?.body?.text) return payload.interactive.body.text;
   if (payload.image?.caption) return payload.image.caption;
   return "";
+}
+
+function isPureUrl(str: string): boolean {
+  return /^https?:\/\/[^\s]+$/i.test(str.trim());
+}
+
+function isYouTubeUrl(str: string): boolean {
+  return /(youtube\.com|youtu\.be)/i.test(str.trim());
 }
 
 export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
@@ -599,55 +609,18 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                   })}
                 </div>
 
-                {/* QUICK START Dropdown Accordion */}
-                <div className="w-full max-w-2xl px-2 space-y-3.5 pt-1">
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    {t.quickStart}
-                  </p>
-
+                {/* Pre-Care & Post-Care Data Preview Callout */}
+                <div className="w-full max-w-2xl px-2 pt-2">
                   <button
                     type="button"
-                    onClick={() => setQuickStartOpen((v) => !v)}
-                    className="w-full flex items-center justify-between px-6 py-4 bg-white/95 border border-pink-200 hover:border-pink-300 rounded-2xl shadow-[0_10px_28px_rgba(236,72,153,0.08)] text-gray-800 font-bold transition-all cursor-pointer"
+                    onClick={() => setPreviewModalOpen(true)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/85 hover:bg-white border border-teal-200/80 hover:border-pink-300 text-xs sm:text-sm font-semibold text-gray-700 hover:text-pink-700 shadow-sm hover:shadow transition-all cursor-pointer"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <Sparkles className="w-4 h-4 text-pink-500" />
-                      <span>{t.quickStart}</span>
-                    </div>
-                    <ChevronDown
-                      className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${quickStartOpen ? "rotate-180" : ""
-                        }`}
-                    />
+                    <BookOpen className="w-4 h-4 text-teal-600" />
+                    <span>
+                      See Sample Care Knowledge &amp; Clinical Scenarios
+                    </span>
                   </button>
-
-                  {quickStartOpen && (
-                    <div className="bg-white/95 border border-pink-100 rounded-2xl shadow-xl p-2 space-y-1 text-left">
-                      {quickPrompts.map((prompt) => (
-                        <button
-                          key={prompt}
-                          type="button"
-                          onClick={() => void handleSend(prompt)}
-                          className="w-full text-left px-4 py-3 hover:bg-pink-50 rounded-xl text-sm font-semibold text-gray-700 hover:text-pink-700 transition-colors cursor-pointer"
-                        >
-                          {prompt}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Clear Pre-Care & Post-Care Data Preview Callout */}
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setPreviewModalOpen(true)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/85 hover:bg-white border border-teal-200/80 hover:border-pink-300 text-xs sm:text-sm font-semibold text-gray-700 hover:text-pink-700 shadow-sm hover:shadow transition-all cursor-pointer"
-                    >
-                      <BookOpen className="w-4 h-4 text-teal-600" />
-                      <span>
-                        See Sample Care Knowledge &amp; Clinical Scenarios
-                      </span>
-                    </button>
-                  </div>
                 </div>
               </div>
             )}
@@ -780,10 +753,33 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                       )}
 
                       {msg.text && (
-                        <FormattedMessage
-                          text={msg.text}
-                          className="text-sm sm:text-base font-medium"
-                        />
+                        isPureUrl(msg.text) ? (
+                          <div className="my-1.5">
+                            <a
+                              href={msg.text.trim()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-semibold text-sm shadow-sm hover:shadow transition-all group ${
+                                isYouTubeUrl(msg.text)
+                                  ? "bg-red-600 hover:bg-red-700 text-white"
+                                  : "bg-teal-600 hover:bg-teal-700 text-white"
+                              }`}
+                            >
+                              <PlayCircle className="w-5 h-5 shrink-0 group-hover:scale-110 transition-transform" />
+                              <span>
+                                {isYouTubeUrl(msg.text)
+                                  ? "Watch Video on YouTube"
+                                  : "Open Attached Resource"}
+                              </span>
+                              <ExternalLink className="w-4 h-4 opacity-80" />
+                            </a>
+                          </div>
+                        ) : (
+                          <FormattedMessage
+                            text={msg.text}
+                            className="text-sm sm:text-base font-medium"
+                          />
+                        )
                       )}
 
                       {/* WhatsApp Interactive Reply Buttons */}

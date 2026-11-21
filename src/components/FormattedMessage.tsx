@@ -7,8 +7,8 @@ interface FormattedMessageProps {
 
 function renderInlineFormatting(line: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
-  // Matches **bold**, *bold*, or _italic_
-  const pattern = /(\*\*[^*]+\*\*|\*[^*\n]+\*|_[^_\n]+_)/g;
+  // Matches URLs, **bold**, *bold*, or _italic_
+  const pattern = /(https?:\/\/[^\s<>]+|\*\*[^*]+\*\*|\*[^*\n]+\*|_[^_\n]+_)/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
   let keyIdx = 0;
@@ -18,7 +18,30 @@ function renderInlineFormatting(line: string): React.ReactNode[] {
       nodes.push(line.slice(lastIndex, match.index));
     }
     const token = match[0];
-    if (token.startsWith("**") && token.endsWith("**")) {
+    if (token.startsWith("http://") || token.startsWith("https://")) {
+      let cleanUrl = token;
+      let trailingPunct = "";
+      const lastChar = cleanUrl.slice(-1);
+      if ([".", ",", ")", "]", ";", "!"].includes(lastChar)) {
+        cleanUrl = cleanUrl.slice(0, -1);
+        trailingPunct = lastChar;
+      }
+      const isYouTube = /youtube\.com|youtu\.be/i.test(cleanUrl);
+      nodes.push(
+        <a
+          key={keyIdx++}
+          href={cleanUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-teal-600 hover:text-teal-800 underline font-semibold break-all inline-flex items-center gap-1 cursor-pointer"
+        >
+          {isYouTube ? "▶ Watch on YouTube" : cleanUrl}
+        </a>
+      );
+      if (trailingPunct) {
+        nodes.push(trailingPunct);
+      }
+    } else if (token.startsWith("**") && token.endsWith("**")) {
       nodes.push(
         <strong key={keyIdx++} className="font-bold">
           {token.slice(2, -2)}
