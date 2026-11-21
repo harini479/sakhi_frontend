@@ -27,6 +27,7 @@ import type {
 import type { UILang } from "../components/TopNav";
 import { FormattedMessage } from "../components/FormattedMessage";
 import { CareDataPreviewModal } from "../components/CareDataPreviewModal";
+import { SAMPLE_CARE_DATA } from "../data/sampleCareData";
 
 interface SakhiTryPageProps {
   lang: UILang;
@@ -139,7 +140,7 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [carePreviewData, setCarePreviewData] =
-    useState<CarePreviewData | null>(null);
+    useState<CarePreviewData | null>(SAMPLE_CARE_DATA);
   const [activeContextLabel, setActiveContextLabel] = useState<string | null>(
     null
   );
@@ -466,11 +467,10 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                       key={p.id}
                       type="button"
                       onClick={() => handleSwitchProfile(p.id)}
-                      className={`w-full text-left px-3 py-2.5 rounded-xl text-xs transition-colors flex items-center justify-between gap-2 cursor-pointer ${
-                        p.id === activeProfile.id
+                      className={`w-full text-left px-3 py-2.5 rounded-xl text-xs transition-colors flex items-center justify-between gap-2 cursor-pointer ${p.id === activeProfile.id
                           ? "bg-pink-50 text-pink-700 font-bold"
                           : "text-gray-700 hover:bg-gray-50"
-                      }`}
+                        }`}
                     >
                       <div className="min-w-0">
                         <div className="font-semibold truncate">{p.name}</div>
@@ -479,11 +479,10 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                         </div>
                       </div>
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
-                          p.careType === "Post-Care"
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${p.careType === "Post-Care"
                             ? "bg-pink-50 text-pink-700 border border-pink-100"
                             : "bg-teal-50 text-teal-700"
-                        }`}
+                          }`}
                       >
                         {p.careType}
                       </span>
@@ -523,11 +522,10 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                         onLangChange(item.code);
                         setLangMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
-                        lang === item.code
+                      className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${lang === item.code
                           ? "bg-pink-50 text-pink-600"
                           : "text-gray-700 hover:bg-gray-50"
-                      }`}
+                        }`}
                     >
                       {item.label}
                     </button>
@@ -603,9 +601,8 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                       <span>{t.quickStart}</span>
                     </div>
                     <ChevronDown
-                      className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
-                        quickStartOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${quickStartOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -633,8 +630,7 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                     >
                       <BookOpen className="w-4 h-4 text-teal-600" />
                       <span>
-                        See Predefined Pre-Care &amp; Post-Care Data + Sample
-                        Questions
+                        See Sample Care Knowledge &amp; Clinical Scenarios
                       </span>
                     </button>
                   </div>
@@ -683,36 +679,32 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
               return (
                 <div
                   key={msg.id}
-                  className={`flex flex-col gap-3 ${
-                    isUser ? "items-end" : "items-start"
-                  }`}
+                  className={`flex flex-col gap-3 ${isUser ? "items-end" : "items-start"
+                    }`}
                 >
                   <div
-                    className={`flex gap-3.5 items-end max-w-full ${
-                      isUser ? "flex-row-reverse" : "flex-row"
-                    }`}
+                    className={`flex gap-3.5 items-end max-w-full ${isUser ? "flex-row-reverse" : "flex-row"
+                      }`}
                   >
                     {/* Avatar */}
                     <div className="shrink-0 relative">
                       <div
-                        className={`absolute inset-0 bg-gradient-to-br ${
-                          isUser
+                        className={`absolute inset-0 bg-gradient-to-br ${isUser
                             ? "from-blue-400 to-cyan-400"
                             : isEmergency
-                            ? "from-rose-500 to-red-500"
-                            : isDoctorEscalation
-                            ? "from-teal-400 to-indigo-400"
-                            : "from-pink-400 to-rose-400"
-                        } rounded-2xl blur-md opacity-30`}
+                              ? "from-rose-500 to-red-500"
+                              : isDoctorEscalation
+                                ? "from-teal-400 to-indigo-400"
+                                : "from-pink-400 to-rose-400"
+                          } rounded-2xl blur-md opacity-30`}
                       />
                       <div
-                        className={`relative w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-lg border ${
-                          isEmergency
+                        className={`relative w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-lg border ${isEmergency
                             ? "border-rose-200"
                             : isDoctorEscalation
-                            ? "border-teal-200"
-                            : "border-pink-100"
-                        }`}
+                              ? "border-teal-200"
+                              : "border-pink-100"
+                          }`}
                       >
                         {isUser ? (
                           <span className="text-sm font-bold text-blue-600">
@@ -734,15 +726,14 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
 
                     {/* Message Bubble */}
                     <div
-                      className={`max-w-[84%] sm:max-w-2xl rounded-[1.5rem] p-4 shadow-xl border ${
-                        isUser
+                      className={`max-w-[84%] sm:max-w-2xl rounded-[1.5rem] p-4 shadow-xl border ${isUser
                           ? "bg-gradient-to-br from-blue-600 to-cyan-600 border-blue-500 text-white"
                           : isEmergency
-                          ? "bg-rose-50/90 border-rose-200 text-gray-900"
-                          : isDoctorEscalation
-                          ? "bg-teal-50/75 border-teal-200 text-gray-900"
-                          : "bg-white border-gray-100 text-gray-800"
-                      }`}
+                            ? "bg-rose-50/90 border-rose-200 text-gray-900"
+                            : isDoctorEscalation
+                              ? "bg-teal-50/75 border-teal-200 text-gray-900"
+                              : "bg-white border-gray-100 text-gray-800"
+                        }`}
                     >
                       {!isUser && isEmergency && (
                         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-700 pb-2.5 mb-2.5 border-b border-rose-200/80">
@@ -855,14 +846,12 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                       )}
 
                       <p
-                        className={`text-[10px] mt-2.5 flex items-center gap-1.5 font-bold uppercase tracking-wider ${
-                          isUser ? "text-white/90" : "text-gray-400"
-                        }`}
+                        className={`text-[10px] mt-2.5 flex items-center gap-1.5 font-bold uppercase tracking-wider ${isUser ? "text-white/90" : "text-gray-400"
+                          }`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            isUser ? "bg-white" : "bg-pink-400"
-                          }`}
+                          className={`w-1.5 h-1.5 rounded-full ${isUser ? "bg-white" : "bg-pink-400"
+                            }`}
                         />
                         {msg.timestamp}
                       </p>
@@ -925,11 +914,10 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
                 type="button"
                 onClick={handleVoiceInput}
                 title="Voice Input"
-                className={`absolute right-5 top-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110 active:scale-90 cursor-pointer ${
-                  isListening
+                className={`absolute right-5 top-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110 active:scale-90 cursor-pointer ${isListening
                     ? "text-pink-600 animate-pulse"
                     : "text-gray-400 hover:text-pink-500"
-                }`}
+                  }`}
               >
                 <Mic className="w-5 h-5" />
               </button>
@@ -949,7 +937,7 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
 
       <CareDataPreviewModal
         open={previewModalOpen}
-        data={carePreviewData}
+        data={carePreviewData || SAMPLE_CARE_DATA}
         onClose={() => setPreviewModalOpen(false)}
         onTryQuestion={handleTryFromPreview}
       />
