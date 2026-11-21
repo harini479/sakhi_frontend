@@ -1,6 +1,26 @@
 import { PatientProfileOption } from "@/types/sakhi";
 
+export function createGuestProfile(customPhone?: string): PatientProfileOption {
+  const phone = customPhone || `guest_${Date.now().toString().slice(-6)}`;
+  return {
+    id: "guest-new",
+    phone,
+    name: "New Guest",
+    stage: "Pre-Care · General Health & Inquiry",
+    careType: "Guest",
+    language: "en",
+    description: "Start as a new guest or visitor. Ask general health doubts (stomach ache, headache) or fertility questions.",
+    suggestedPrompts: [
+      "I have a stomach ache today",
+      "I have a bad headache",
+      "What is IVF and what are its main stages?",
+      "Find fertility hospitals near 500034",
+    ],
+  };
+}
+
 export const PATIENT_PROFILES: PatientProfileOption[] = [
+  createGuestProfile(),
   {
     id: "venkatesh",
     phone: "+911111111111",
@@ -10,10 +30,10 @@ export const PATIENT_PROFILES: PatientProfileOption[] = [
     language: "en",
     description: "Exploring fertility options, diet guidance, emotional support, and nearby hospitals.",
     suggestedPrompts: [
+      "I have a stomach ache today",
+      "I have a bad headache",
       "What is IVF and what are its main stages?",
       "What natural foods can help improve egg quality?",
-      "Find fertility hospitals near 500034",
-      "Does age really affect our chances of conceiving?",
     ],
   },
   {
@@ -72,16 +92,6 @@ export const PATIENT_PROFILES: PatientProfileOption[] = [
       "I have a headache today",
       "I am having chest pain",
     ],
-  },
-  {
-    id: "guest-new",
-    phone: `guest_${Date.now().toString().slice(-6)}`,
-    name: "New Visitor",
-    stage: "Onboarding · First Conversation",
-    careType: "Guest",
-    language: "en",
-    description: "Experience Sakhi's real first-time patient name onboarding flow from scratch.",
-    suggestedPrompts: ["Hello Sakhi", "Deepthi", "Find hospitals near 500081"],
   },
 ];
 

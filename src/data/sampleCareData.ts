@@ -19,6 +19,24 @@ export const SAMPLE_CARE_DATA: CarePreviewData = {
     },
     topics: [
       {
+        id: "pc-stomach-ache",
+        category: "General Health Triage",
+        title: "Stomach Ache & Abdominal Pain Check",
+        sample_question: "I have a stomach ache today",
+        expected_behavior: "1-Question Severity Gate",
+        answer_preview:
+          "Asks where the pain is located and its severity. Reassures for mild discomfort; immediately escalates to medical team if pain is severe, rigid, or paired with high fever.",
+      },
+      {
+        id: "pc-headache",
+        category: "General Health Triage",
+        title: "Headache & Migraine Screening",
+        sample_question: "I have a bad headache",
+        expected_behavior: "Onset & Severity Check",
+        answer_preview:
+          "Checks whether onset was sudden or gradual, and whether vision or neurological symptoms are present. Shares quiet rest and hydration for mild tension; immediately escalates severe onset.",
+      },
+      {
         id: "pc-ivf-overview",
         category: "Fertility Treatments",
         title: "What is IVF & Step-by-Step Journey",

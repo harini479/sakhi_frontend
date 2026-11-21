@@ -54,8 +54,9 @@ const I18N = {
     errorConnecting:
       "Sorry, I'm having trouble connecting right now. Please try again.",
     prompts: [
+      "I have a stomach ache today",
+      "I have a bad headache",
       "Does age really affect our chances?",
-      "Healthy routines during pregnancy",
       "Explain me the IVF journey?",
       "Find fertility hospitals near 500034",
     ],
@@ -76,8 +77,9 @@ const I18N = {
     errorConnecting:
       "क्षमा करें, मुझे अभी जुड़ने में समस्या हो रही है। कृपया पुनः प्रयास करें।",
     prompts: [
+      "मुझे आज पेट में दर्द हो रहा है",
+      "मुझे तेज सिरदर्द है",
       "क्या उम्र वास्तव में हमारी संभावनाओं को प्रभावित करती है?",
-      "गर्भावस्था के दौरान स्वस्थ दिनचर्या",
       "मुझे आईवीएफ यात्रा के बारे में समझाएं?",
       "Find fertility hospitals near 500034",
     ],
@@ -98,8 +100,9 @@ const I18N = {
     errorConnecting:
       "క్షమించండి, నాకు కనెక్ట్ అవ్వడంలో ఇబ్బందిగా ఉంది. ఒక్కసారి మళ్ళీ ప్రయత్నిస్తారా?",
     prompts: [
+      "నాకు ఈరోజు కడుపు నొప్పిగా ఉంది",
+      "నాకు విపరీతమైన తలనొప్పిగా ఉంది",
       "వయస్సు నిజంగా ప్రెగ్నెన్సీ అవకాశాలను తగ్గిస్తుందా?",
-      "ప్రెగ్నెన్సీ సమయంలో ఎలాంటి జాగ్రత్తలు తీసుకోవాలి?",
       "IVF ప్రాసెస్ గురించి వివరంగా చెప్పండి?",
       "500034 దగ్గర మంచి హాస్పిటల్స్ చూపించండి",
     ],
@@ -129,8 +132,9 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
 }) => {
   const t = I18N[lang] || I18N.en;
 
-  const [selectedProfileId, setSelectedProfileId] = useState<string>(
-    PATIENT_PROFILES[0].id
+  const [selectedProfileId, setSelectedProfileId] = useState<string>("guest-new");
+  const [guestPhone, setGuestPhone] = useState<string>(
+    PATIENT_PROFILES[0]?.phone || `guest_${Date.now().toString().slice(-6)}`
   );
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -149,9 +153,13 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const consumedInitialRef = useRef<string | null>(null);
 
-  const activeProfile =
+  const baseProfile =
     PATIENT_PROFILES.find((p) => p.id === selectedProfileId) ||
     PATIENT_PROFILES[0];
+  const activeProfile =
+    baseProfile.id === "guest-new"
+      ? { ...baseProfile, phone: guestPhone }
+      : baseProfile;
 
   useEffect(() => {
     let mounted = true;
@@ -175,10 +183,13 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
     const trimmed = rawText.trim();
     if (!trimmed || isSending) return;
 
+    const rawTarget = overrideProfileId
+      ? PATIENT_PROFILES.find((p) => p.id === overrideProfileId) || activeProfile
+      : activeProfile;
     const targetProfile =
-      (overrideProfileId
-        ? PATIENT_PROFILES.find((p) => p.id === overrideProfileId)
-        : activeProfile) || activeProfile;
+      rawTarget.id === "guest-new"
+        ? { ...rawTarget, phone: guestPhone }
+        : rawTarget;
 
     const nowTime = new Date().toLocaleTimeString([], {
       hour: "2-digit",
@@ -320,6 +331,9 @@ export const SakhiTryPage: React.FC<SakhiTryPageProps> = ({
   };
 
   const handleResetChat = () => {
+    const freshGuestPhone = `guest_${Date.now().toString().slice(-6)}`;
+    setGuestPhone(freshGuestPhone);
+    setSelectedProfileId("guest-new");
     setMessages([]);
     setActiveContextLabel(null);
     setQuickStartOpen(false);
